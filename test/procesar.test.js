@@ -45,3 +45,35 @@ test("procesar maneja nombre ausente", () => {
   assert.equal(res.statusCode, 200);
   assert.ok(res.body.resultado.includes("ANÓNIMO"));
 });
+
+test("calidad: formato consistente - siempre 'Nombre procesado: X'", () => {
+  const casos = [
+    { query: { nombre: "ana" }, esperado: "Nombre procesado: ANA" },
+    { query: { nombre: "PEDRO" }, esperado: "Nombre procesado: PEDRO" },
+    { query: { nombre: "" }, esperado: "Nombre procesado: ANÓNIMO" },
+    { query: {}, esperado: "Nombre procesado: ANÓNIMO" }
+  ];
+
+  casos.forEach(({ query, esperado }) => {
+    const req = { query };
+    const res = {
+      statusCode: null,
+      body: null,
+      status(code) {
+        this.statusCode = code;
+        return this;
+      },
+      json(payload) {
+        this.body = payload;
+        return this;
+      }
+    };
+
+    handler(req, res);
+    
+    // Regla de calidad: El formato SIEMPRE es "Nombre procesado: VALOR"
+    assert.equal(res.body.resultado, esperado);
+    assert.match(res.body.resultado, /^Nombre procesado: [A-ZÑ]+!?$/, 
+      "Formato debe ser 'Nombre procesado: TEXTO'");
+  });
+});
