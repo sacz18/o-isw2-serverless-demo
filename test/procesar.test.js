@@ -73,7 +73,7 @@ test("calidad: formato consistente - siempre 'Nombre procesado: X'", () => {
     
     // Regla de calidad: El formato SIEMPRE es "Nombre procesado: VALOR"
     assert.equal(res.body.resultado, esperado);
-    assert.match(res.body.resultado, /^Nombre procesado: [A-ZÑ]+!?$/, 
+    assert.match(res.body.resultado, /^Nombre procesado: [A-ZÁÉÍÓÚÑ]+!?$/, 
       "Formato debe ser 'Nombre procesado: TEXTO'");
   });
 });
