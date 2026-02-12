@@ -15,7 +15,7 @@ export default function handler(req, res) {
   
   //normalmente pasa esto
   res.status(200).json({
-    resultado: `Nombre procesado: ${nombre.toUpperCase()}`,
+    resultado: `Nombre procesado: ${nombre.toLowerCase()}`,
     //timestamp: timestamp
   });
     
